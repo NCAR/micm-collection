@@ -2,6 +2,7 @@
 import argparse
 import os
 import sys
+from ftplib import FTP
 
 from http.client import HTTPSConnection
 import json
@@ -25,10 +26,9 @@ parser.add_argument('-preprocessor', type=str, default=default_preprocessor_serv
                     help='url of preprocessor')
 parser.add_argument('-target_dir', type=str, default="",
                     help='url of preprocessor')
-parser.add_argument('-git_user', metavar='git_user', type=str, default="",
-                    help='user name for github access')
-parser.add_argument('-git_pw', metavar='git_pw', type=str, default="",
-                    help='password for user on github')
+
+parser.add_argument('-environmental_conditions_file', type=str, default="Equatorial_Pacific_column_c20180626.nc",
+                    help='Name of environmental conditions file at ftp://ftp.acom.ucar.edu/micm_environmental_conditions')
 
 args = parser.parse_args()
 print(args)
@@ -129,24 +129,10 @@ with open(outpath+'kinetics_utilities.F90', 'w') as kinetics_utilities_outfile:
   kinetics_utilities_outfile.write(kinetics_json["module"])
 
 
-#
-#    Extract the code from github to solve the system
-#
-# 
-#path  = outpath
-#clone = "git clone https://github.com/NCAR/MusicBox"
-
-#os.system("sshpass -p your_password ssh user_name@your_localhost")
-#os.chdir(path) # Specifying the path where the cloned project needs to be copied
-#os.system(clone) # Cloning
-
-
-
-
-#
-#    Collect the environmental conditions file
-#
-# 
-
+with FTP('ftp.acom.ucar.edu') as ftp:
+  ftp.login(user='anonymous', passwd='anonymous')
+  ftp.cwd('micm_environmental_conditions')
+  ftp.retrbinary('RETR '+ args.environmental_conditions_file, open(outpath+'env_conditions.nc', 'wb').write)
+  ftp.quit
 
 
