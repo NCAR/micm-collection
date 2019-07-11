@@ -7,3 +7,4 @@ burrito.py
 - orders from the Cafe using a mechanism tag number.
 - submits that json representation of the mechanism to the MechanismToCode
 - places the data in the appropriate place in MICM_chemistry and MusicBox
+- collects environmental conditions (netcdf) file from ftp server
