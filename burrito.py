@@ -14,18 +14,16 @@ import json
 # needs to check the python v3 is running
 
 # Parse arguments.  They override those defaults specified in the argument parser
-default_tag = 255
 default_tag_server = "cafe-devel.acom.ucar.edu"
 default_preprocessor_server = "www.acom.ucar.edu"
-default_configured_tag_location = str(default_tag)
 parser = argparse.ArgumentParser(description='Solve a mechanism tag using the sparse solver branch of MusicBox/MICM.')
-parser.add_argument('-tag_id', type=int, default=default_tag,
+parser.add_argument('-tag_id', type=int, required=True,
                     help='Tag number for Chemistry Cafe mechanism tag')
 parser.add_argument('-tag_server', type=str, default=default_tag_server,
                     help='url of tag server')
 parser.add_argument('-preprocessor', type=str, default=default_preprocessor_server,
                     help='url of preprocessor')
-parser.add_argument('-target_dir', type=str, default=default_configured_tag_location,
+parser.add_argument('-target_dir', type=str, default="",
                     help='url of preprocessor')
 parser.add_argument('-git_user', metavar='git_user', type=str, default="",
                     help='user name for github access')
@@ -33,14 +31,19 @@ parser.add_argument('-git_pw', metavar='git_pw', type=str, default="",
                     help='password for user on github')
 
 args = parser.parse_args()
+print(args)
 
-outpath = "configured_tags/"+args.target_dir+"/"
+
+if(args.target_dir):
+  outpath = "configured_tags/"+args.target_dir+"/"
+else:
+  outpath = "configured_tags/"+str(args.tag_id)+"/"
 
 # make target_tag_location director
 try:
   os.mkdir(outpath)
 except Exception as e:
-  print("Directory "+args.target_dir+" already exists.  Delete it if you want new data.")
+  print("Directory "+outpath+" already exists.  Delete it if you want new data.")
   print("Exception: "+str(3))
   sys.exit(1)
 
