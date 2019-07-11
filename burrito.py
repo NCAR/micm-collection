@@ -17,7 +17,7 @@ import json
 default_tag = 255
 default_tag_server = "cafe-devel.acom.ucar.edu"
 default_preprocessor_server = "www.acom.ucar.edu"
-default_configured_tag_location = "./"+str(default_tag)
+default_configured_tag_location = str(default_tag)
 parser = argparse.ArgumentParser(description='Solve a mechanism tag using the sparse solver branch of MusicBox/MICM.')
 parser.add_argument('-tag_id', type=int, default=default_tag,
                     help='Tag number for Chemistry Cafe mechanism tag')
@@ -33,15 +33,12 @@ parser.add_argument('-git_pw', metavar='git_pw', type=str, default="",
                     help='password for user on github')
 
 args = parser.parse_args()
-print('parsed runscript data')
-print(args)
-print('arguments parsed\n\n')
 
-outpath = args.target_dir+"/"
+outpath = "configured_tags/"+args.target_dir+"/"
 
 # make target_tag_location director
 try:
-  os.mkdir(args.target_dir)
+  os.mkdir(outpath)
 except Exception as e:
   print("Directory "+args.target_dir+" already exists.  Delete it if you want new data.")
   print("Exception: "+str(3))
