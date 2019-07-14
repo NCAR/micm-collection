@@ -26,6 +26,9 @@ parser.add_argument('-preprocessor', type=str, default=default_preprocessor_serv
                     help='url of preprocessor')
 parser.add_argument('-target_dir', type=str, default="",
                     help='url of preprocessor')
+parser.add_argument('-overwrite', type=bool, default=False,
+                    help='overwrite target_dir')
+ 
 
 parser.add_argument('-environmental_conditions_file', type=str, default="Equatorial_Pacific_column_c20180626.nc",
                     help='Name of environmental conditions file at ftp://ftp.acom.ucar.edu/micm_environmental_conditions')
@@ -41,7 +44,11 @@ else:
 
 # make target_tag_location director
 try:
-  os.mkdir(outpath)
+  if(args.overwrite):
+    os.system("rm -rf "+outpath)
+    os.mkdir(outpath)
+  else:
+    os.mkdir(outpath)
 except Exception as e:
   print("Directory "+outpath+" already exists.  Delete it if you want new data.")
   print("Exception: "+str(3))
