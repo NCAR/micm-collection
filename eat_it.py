@@ -7,7 +7,11 @@ import argparse
 # Parse arguments.  They override those defaults specified in the argument parser
 #default_preprocessor_server = "www.acom.ucar.edu"
 
-parser = argparse.ArgumentParser(description='Distribute Fortran from a particular directory into MICM_chemistry')
+parser = argparse.ArgumentParser(
+                      description='Distribute Fortran from a particular directory into MICM_chemistry',
+                      formatter_class=argparse.ArgumentDefaultsHelpFormatter
+                      )
+
 
 parser.add_argument('-source_dir', type=str, required=True,
                     help='Source directory containing kinetics FORTRAN code')
