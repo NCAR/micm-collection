@@ -82,7 +82,7 @@ headers = { 'Authorization' : 'Basic %s' %  userAndPass }
 #    Collect Tag and preprocess it
 #
 # Get tag from server
-mechanism_con.request('GET', '/node_processes/tags.php?action=return_tag&tag_id='+str(args.tag_id), headers=headers)
+mechanism_con.request('GET', '/node_processes/tags.php?action=return_tag&tag_id='+str(args.tag_id)+'&micm=true', headers=headers)
 res = mechanism_con.getresponse()
 # Check status
 
