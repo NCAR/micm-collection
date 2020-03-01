@@ -1,10 +1,8 @@
-# burrito.py
-Collect Tag from chemistry cafe, Use MechanismToCode to convert to Fortran and place in MICM_chemistry
+# [Mechanism Collection](https://github.com/NCAR/burrito)
+This is the storage place for mechanisms, configured mechanisms, and environmental conditions
+- Collect Tag from chemistry cafe, **get_tag.py**
+- Use web-service preprocessor to convert the tag to Fortran, **preprocess_tag.py**
+- Collect Environmental Conditions File from FTP Server, **get_environmental_conditions.py**
+- Place environmental conditions and fortran code (corresponding to the tag) in place to be compiled, **stage_tag.py**
 
-The Chemistry Cafe is a (web) database of reactions and mechanisms, including versioning. 
-MechanismToCode is a web service converting mechanisms into differential equations and a sparse solver
-burrito.py 
-- orders from the Cafe using a mechanism tag number.
-- submits that json representation of the mechanism to the MechanismToCode
-- places the data in the appropriate place in MICM_chemistry and MusicBox
-- collects environmental conditions (netcdf) file from ftp server
+
