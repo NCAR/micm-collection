@@ -8,8 +8,6 @@ from http.client import HTTPSConnection
 import json
 
 import requests
-jac_url = "http://acom-conleyimac2.acom.ucar.edu:3000/constructJacobian"
-
 headers = {
         "cache-control": "no-cache",
         "x-dreamfactory-api-key": "YOUR_API_KEY"
@@ -24,8 +22,7 @@ headers = {
 # needs to check the python v3 is running
 
 # Parse arguments.  They override those defaults specified in the argument parser
-default_tag_server = "cafe-devel.acom.ucar.edu"
-default_preprocessor_server = "www.acom.ucar.edu"
+default_tag_server = "chemistrycafe-devel.acom.ucar.edu"
 parser = argparse.ArgumentParser(
                     description='Solve a mechanism tag using the sparse solver branch of MusicBox/MICM.',
                     formatter_class=argparse.ArgumentDefaultsHelpFormatter
@@ -93,4 +90,3 @@ mechanism = res.read()
 mech_json = json.loads(mechanism)
 with open(outpath+'mechanism.json', 'w') as mechanism_outfile:
   json.dump(mech_json, mechanism_outfile, indent=2)
-

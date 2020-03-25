@@ -8,7 +8,6 @@ from http.client import HTTPSConnection
 import json
 
 import requests
-jac_url = "http://acom-conleyimac2.acom.ucar.edu:3000/constructJacobian"
 
 headers = {
         "cache-control": "no-cache",
@@ -70,7 +69,7 @@ headers = { 'Authorization' : 'Basic %s' %  userAndPass, 'Content-type': 'applic
 # Construct factor_solve_utilities.F90, kinetics_utilities.F90, rate_constants_utilities.F90
 #mech_json_string = json.dumps(mech_json)
 #print(mech_json_string)
-res = requests.post(jac_url, auth=('user', 'pass'), json=mech_json)
+res = requests.post("http://"+args.preprocessor+"/constructJacobian", auth=('user', 'pass'), json=mech_json)
 print(res.status_code)
 print(res.encoding)
 print(res.json)
