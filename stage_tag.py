@@ -37,4 +37,4 @@ cp( args.source_dir_kinetics + "/rate_constants_utility.F90", args.target_dir_ch
 cp( args.source_dir_kinetics + "/factor_solve_utilities.F90", args.target_dir_chemistry  + "/kinetics/factor_solve_utilities.F90" )
 cp( args.source_dir_kinetics + "/kinetics_utilities.F90"    , args.target_dir_chemistry  + "/kinetics/kinetics_utilities.F90" )
 cp( args.source_dir_kinetics + "/mechanism.json"            , args.target_dir_host_model + "molec_info.json" )
-cp( args.source_dir_environmental_conditions, args.target_dir_environmental_conditions + "env_conditions.nc" )
+cp( args.source_file_environmental_conditions, args.target_dir_environmental_conditions + "env_conditions.nc" )
