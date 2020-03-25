@@ -12,7 +12,7 @@ parser = argparse.ArgumentParser(
                     formatter_class=argparse.ArgumentDefaultsHelpFormatter
                     )
 
-parser.add_argument('-environmental_conditions_file', type=str, default="f.e21.FW2000climo.f09_f09_mg17.n03.cam.h2.0001-01-01-00000.nc",
+parser.add_argument('-environmental_conditions_file', type=str, default="boulder.complete.nc",
                     help='Name of environmental conditions file at ftp://ftp.acom.ucar.edu/')
 parser.add_argument('-path_to_environmental_conditions', type=str, default="./environmental_conditions/",
                     help='Name of environmental conditions file at ftp://ftp.acom.ucar.edu/')
@@ -35,5 +35,5 @@ else:
   with FTP('ftp.acom.ucar.edu') as ftp:
     ftp.login(user='anonymous', passwd='anonymous')
     ftp.cwd('micm_environmental_conditions')
-    ftp.retrbinary('RETR '+ args.environmental_conditions_file, open(args.path_to_environmental_conditions+args.environmental_conditions_file, 'wb').write)
+    ftp.retrbinary('RETR '+ args.environmental_conditions_file, open(target_path_file, 'wb').write)
     ftp.quit
