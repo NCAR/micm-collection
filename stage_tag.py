@@ -13,22 +13,29 @@ parser = argparse.ArgumentParser(
                       )
 
 
-parser.add_argument('-source_dir', type=str, required=True,
+parser.add_argument('-source_dir_kinetics', type=str, required=True,
                     help='Source directory containing kinetics FORTRAN code')
 
-parser.add_argument('-target_dir', type=str, default="../MICM_chemistry/src", 
+parser.add_argument('-target_dir_kinetics', type=str, default="../MICM_chemistry/src", 
                     help='Where the code should be placed')
 
-parser.add_argument('-host_model_dir', type=str, default="../MusicBox_host/",
+parser.add_argument('-target_host_model_mechanism_location', type=str, default="../MusicBox_host/",
                     help='Where to place the molecular information for the host model')
+
+parser.add_argument('-target_host_model_environmental_conditions_dir', type=str, default="../MusicBox_host/data/",
+                    help='Where to place the molecular information for the host model')
+
+parser.add_argument('-source_environmental', type=str, default="./environmental_conditions/boulder.complete.nc",
+                    help='Where to place the molecular information for the host model')
+
 
 
 
 args = parser.parse_args()
 print(args)
 
-cp( args.source_dir + "/rate_constants_utility.F90", args.target_dir     + "/kinetics/rate_constants_utility.F90" )
-cp( args.source_dir + "/factor_solve_utilities.F90", args.target_dir     + "/kinetics/factor_solve_utilities.F90" )
-cp( args.source_dir + "/kinetics_utilities.F90"    , args.target_dir     + "/kinetics/kinetics_utilities.F90" )
-cp( args.source_dir + "/mechanism.json"            , args.host_model_dir + "molec_info.json" )
-cp( args.source_dir + "/env_conditions.nc"         , args.host_model_dir + "/data/env_conditions.nc" )
+cp( args.source_dir_kinetics + "/rate_constants_utility.F90", args.target_dir_kinetics     + "/kinetics/rate_constants_utility.F90" )
+cp( args.source_dir_kinetics + "/factor_solve_utilities.F90", args.target_dir_kinetics     + "/kinetics/factor_solve_utilities.F90" )
+cp( args.source_dir_kinetics + "/kinetics_utilities.F90"    , args.target_dir_kinetics     + "/kinetics/kinetics_utilities.F90" )
+cp( args.source_dir_kinetics + "/mechanism.json"            , args.target_host_model_mechanism_location + "molec_info.json" )
+cp( args.source_environmental         , args.target_host_model_environmental_conditions_dir + "env_conditions.nc" )
