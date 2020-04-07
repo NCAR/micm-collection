@@ -70,13 +70,13 @@ headers = { 'Authorization' : 'Basic %s' %  userAndPass, 'Content-type': 'applic
 #mech_json_string = json.dumps(mech_json)
 #print(mech_json_string)
 res = requests.post("http://"+args.preprocessor+"/constructJacobian", auth=('user', 'pass'), json=mech_json)
-print(res.status_code)
-print(res.encoding)
-print(res.json)
+#print(res.status_code)
+#print(res.encoding)
+#print(res.json)
 if res.status_code != 200 : exit()
 jacobian = res.text
 jacobian_json = json.loads(jacobian)
-print(jacobian_json)
+#print(jacobian_json)
 
 #service = '/preprocessor/constructJacobian'
 #preprocessor_con.request('POST', service, mechanism, headers=headers)
