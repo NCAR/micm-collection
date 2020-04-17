@@ -13,6 +13,23 @@ headers = {
         "x-dreamfactory-api-key": "YOUR_API_KEY"
 }
 
+class tag_server:
+  def __init__(self, nickname, server, accessor):
+    self.nickname = nickname
+    self.server = server
+    self.accessor = accessor
+
+  def connnection(self):
+    return HTTPSConnection(self.server)
+
+
+default_tag_server = tag_server("Published","www.acom.ucar.edu","/cgi-bin/acd/mechanism.py?hash=")
+alternate_tag_server = tag_server("cafe-devel","chemistrycafe-devel.acom.ucar.edu","/node_processes/tags.php?action=return_tag&tag_id=")
+
+tag_server_collection = [default_tag_server,alternate_tag_server]
+
+def extract_server_nickname(server):
+  return server.nickname
 
 # needs to check that ssl is enabled
 #import socket
@@ -29,17 +46,18 @@ parser = argparse.ArgumentParser(
                     )
 parser.add_argument('-tag_id', type=int, required=True,
                     help='Tag number for Chemistry Cafe mechanism tag')
-parser.add_argument('-tag_server', type=str, default=default_tag_server,
-                    help='url of tag server')
+#parser.add_argument('-tag_server', type=str, default=default_tag_server, help='url of tag server')
 parser.add_argument('-overwrite', type=bool, default=False,
                     help='overwrite the target_dir')
 parser.add_argument('-target_dir', type=bool, default=False,
                     help='target name for mechanism to be stored locally ')
- 
-
+parser.add_argument('-tag_server', default='Published', choices=list(map(extract_server_nickname,tag_server_collection)))
 
 args = parser.parse_args()
 
+# get the server corresponding to the nickname chosen
+tagServer = next( (ts for ts in tag_server_collection if ts.nickname == args.tag_server), None)
+print(tagServer.server)
 
 if(args.target_dir):
   outpath = "configured_tags/"+args.target_dir+"/"
@@ -63,8 +81,7 @@ with open(outpath+'this_configuration', 'w') as configuration_filehandle:
   configuration_filehandle.write(str(args))
 
 # Connection to the Cafe
-mechanism_store_location = args.tag_server
-mechanism_con = HTTPSConnection(mechanism_store_location)
+mechanism_con = HTTPSConnection(tagServer.server)
 
 # check connection status:
 #exception http.client.HTTPException
@@ -80,7 +97,8 @@ headers = { 'Authorization' : 'Basic %s' %  userAndPass }
 #    Collect Tag and preprocess it
 #
 # Get tag from server
-mechanism_con.request('GET', '/node_processes/tags.php?action=return_tag&tag_id='+str(args.tag_id), headers=headers)
+print(tagServer.accessor+str(args.tag_id))
+mechanism_con.request('GET', tagServer.accessor+str(args.tag_id), headers=headers)
 res = mechanism_con.getresponse()
 # Check status
 
