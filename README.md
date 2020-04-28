@@ -6,3 +6,8 @@ This is the storage place for mechanisms, configured mechanisms, and environment
 - Place environmental conditions and fortran code (corresponding to the tag) in place to be compiled, **stage_tag.py**
 
 
+## Usage is available for each of these scripts
+> python3 get_tag.py --help
+> python3 preprocess_tag.py --help
+> python3 stage_tag.py --help
+
