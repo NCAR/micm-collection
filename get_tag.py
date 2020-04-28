@@ -57,7 +57,7 @@ args = parser.parse_args()
 
 # get the server corresponding to the nickname chosen
 tagServer = next( (ts for ts in tag_server_collection if ts.nickname == args.tag_server), None)
-print(tagServer.server)
+print("Downloading tag from server: " +tagServer.server)
 
 if(args.target_dir):
   outpath = "configured_tags/"+args.target_dir+"/"
@@ -80,8 +80,12 @@ except Exception as e:
 with open(outpath+'this_configuration', 'w') as configuration_filehandle:
   configuration_filehandle.write(str(args))
 
-# Connection to the Cafe
-mechanism_con = HTTPSConnection(tagServer.server)
+# Connection to the mechanism sever
+try:
+  mechanism_con = HTTPSConnection(tagServer.server)
+except Exception as e:
+  print("Unable to connect to server: "+tagServer.server)
+  sys.exit(1)
 
 # check connection status:
 #exception http.client.HTTPException
@@ -97,14 +101,29 @@ headers = { 'Authorization' : 'Basic %s' %  userAndPass }
 #    Collect Tag and preprocess it
 #
 # Get tag from server
-print(tagServer.accessor+str(args.tag_id))
-mechanism_con.request('GET', tagServer.accessor+str(args.tag_id), headers=headers)
-res = mechanism_con.getresponse()
-# Check status
+print("Collecting tag using protocol: " + tagServer.accessor+str(args.tag_id))
+try:
+  mechanism_con.request('GET', tagServer.accessor+str(args.tag_id), headers=headers)
+except Exception as e:
+  print("Unable to connect to get tag_id: "+str(args.tag_id))
+  print("From server:  "+str(tagServer.server))
+  print(e)
+  sys.exit(1)
+
+try:
+  res = mechanism_con.getresponse()
+except Exception as e:
+  print("Unable to get response from server: "+arts.tag_id)
+  sys.exit(1)
 
 # Collect the data, write a copy to file
 # error testing?
-mechanism = res.read()  
-mech_json = json.loads(mechanism)
+mechanism = res.read()
+try:
+  mech_json = json.loads(mechanism)
+except Exception as e:
+  print("Server does not produce valid JSON mechanism file")
+  sys.exit(1)
+
 with open(outpath+'mechanism.json', 'w') as mechanism_outfile:
   json.dump(mech_json, mechanism_outfile, indent=2)
