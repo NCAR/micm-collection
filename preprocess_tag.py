@@ -57,7 +57,7 @@ preprocessor_con = HTTPSConnection(processor_location, 3000)
 #  A subclass of HTTPException.
 
 #
-with open(mechanism_source_path+'mechanism.json', 'r') as json_mechanism_file:
+with open(mechanism_source_path+'source_mechanism.json', 'r') as json_mechanism_file:
   mech_json = json.load(json_mechanism_file)
 
 #
@@ -69,7 +69,8 @@ headers = { 'Authorization' : 'Basic %s' %  userAndPass, 'Content-type': 'applic
 # Construct factor_solve_utilities.F90, kinetics_utilities.F90, rate_constants_utilities.F90
 #mech_json_string = json.dumps(mech_json)
 #print(mech_json_string)
-res = requests.post("http://"+args.preprocessor+"/constructJacobian", auth=('user', 'pass'), json=mech_json)
+version = mech_json["mechanism"]["version"]
+res = requests.post("http://"+args.preprocessor+"/constructJacobian/v"+version, auth=('user', 'pass'), json=mech_json)
 #print(res.status_code)
 #print(res.encoding)
 #print(res.json)
@@ -85,7 +86,7 @@ jacobian_json = json.loads(jacobian)
 #jacobian_json = json.loads(jacobian)
 
 
-# factor_solve_utilities.F90, kinetics_utilities.F90, rate_constants_utilities.F90
+# write factor_solve_utilities.F90, kinetics_utilities.F90, rate_constants_utilities.F90
 with open(mechanism_source_path+'kinetics_utilities.F90', 'w') as k_file:
   k_file.write(jacobian_json["kinetics_utilities_module"])
 

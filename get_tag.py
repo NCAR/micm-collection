@@ -125,5 +125,5 @@ except Exception as e:
   print("Server does not produce valid JSON mechanism file")
   sys.exit(1)
 
-with open(outpath+'mechanism.json', 'w') as mechanism_outfile:
+with open(outpath+'source_mechanism.json', 'w') as mechanism_outfile:
   json.dump(mech_json, mechanism_outfile, indent=2)
