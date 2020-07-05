@@ -69,8 +69,12 @@ headers = { 'Authorization' : 'Basic %s' %  userAndPass, 'Content-type': 'applic
 # Construct factor_solve_utilities.F90, kinetics_utilities.F90, rate_constants_utilities.F90
 #mech_json_string = json.dumps(mech_json)
 #print(mech_json_string)
-mechanism_format = mech_json["mechanism"]["mechanism_format"]
-res = requests.post("http://"+args.preprocessor+"/constructJacobian/v"+mechanism_format, auth=('user', 'pass'), json=mech_json)
+if 'mechanism_format' in mech_json["mechanism"]:
+  mechanism_format = mech_json["mechanism"]["mechanism_format"]
+  res = requests.post("http://"+args.preprocessor+"/constructJacobian/v"+mechanism_format, auth=('user', 'pass'), json=mech_json)
+else:
+  res = requests.post("http://"+args.preprocessor+"/constructJacobian/", auth=('user', 'pass'), json=mech_json)
+
 #print(res.status_code)
 #print(res.encoding)
 #print(res.json)
