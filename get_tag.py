@@ -44,7 +44,7 @@ parser = argparse.ArgumentParser(
                     description='Solve a mechanism tag using the sparse solver branch of MusicBox/MICM.',
                     formatter_class=argparse.ArgumentDefaultsHelpFormatter
                     )
-parser.add_argument('-tag_id', type=int, required=True,
+parser.add_argument('-tag_id', type=str, required=True,
                     help='Tag number for Chemistry Cafe mechanism tag')
 #parser.add_argument('-tag_server', type=str, default=default_tag_server, help='url of tag server')
 parser.add_argument('-overwrite', type=bool, default=False,
@@ -125,5 +125,5 @@ except Exception as e:
   print("Server does not produce valid JSON mechanism file")
   sys.exit(1)
 
-with open(outpath+'mechanism.json', 'w') as mechanism_outfile:
+with open(outpath+'source_mechanism.json', 'w') as mechanism_outfile:
   json.dump(mech_json, mechanism_outfile, indent=2)
