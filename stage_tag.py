@@ -19,13 +19,10 @@ parser.add_argument('-source_dir_kinetics', type=str, required=True,
 parser.add_argument('-target_dir_chemistry', type=str, default="../MICM_chemistry/src",
                     help='Chemistry module source code folder. Kinetics code will be placed in the target_dir_chemistry\kinetics folder')
 
-parser.add_argument('-target_dir_host_model', type=str, default="../MusicBox_host/",
-                    help='Host model root directory. The chemical mechanism description will be placed here as molec.json')
-
 parser.add_argument('-source_file_environmental_conditions', type=str, default="./environmental_conditions/boulder.complete.nc",
                     help='Path to the environmental conditions NetCDF file.')
 
-parser.add_argument('-target_dir_environmental_conditions', type=str, default="../MusicBox_host/data/",
+parser.add_argument('-target_dir_data', type=str, default="../../build/data/",
                     help='Host model data directory. Environmental conditions will be placed here as env_conditions.nc')
 
 
@@ -33,8 +30,8 @@ parser.add_argument('-target_dir_environmental_conditions', type=str, default=".
 args = parser.parse_args()
 print(args)
 
-cp( args.source_dir_kinetics + "/rate_constants_utility.F90", args.target_dir_chemistry  + "/kinetics/rate_constants_utility.F90" )
-cp( args.source_dir_kinetics + "/factor_solve_utilities.F90", args.target_dir_chemistry  + "/kinetics/factor_solve_utilities.F90" )
-cp( args.source_dir_kinetics + "/kinetics_utilities.F90"    , args.target_dir_chemistry  + "/kinetics/kinetics_utilities.F90" )
-cp( args.source_dir_kinetics + "/source_mechanism.json"     , args.target_dir_host_model + "molec_info.json" )
-cp( args.source_file_environmental_conditions, args.target_dir_environmental_conditions + "env_conditions.nc" )
+cp( args.source_dir_kinetics + "/rate_constants_utility.F90", args.target_dir_chemistry  + "/preprocessor_output/rate_constants_utility.F90" )
+cp( args.source_dir_kinetics + "/factor_solve_utilities.F90", args.target_dir_chemistry  + "/preprocessor_output/factor_solve_utilities.F90" )
+cp( args.source_dir_kinetics + "/kinetics_utilities.F90"    , args.target_dir_chemistry  + "/preprocessor_output/kinetics_utilities.F90" )
+cp( args.source_dir_kinetics + "/source_mechanism.json"     , args.target_dir_data       + "molec_info.json" )
+cp( args.source_file_environmental_conditions,                args.target_dir_data       + "env_conditions.nc" )
