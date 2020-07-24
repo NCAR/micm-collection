@@ -1,4 +1,8 @@
 #!/usr/bin/python3
+
+# Copyright (C) 2020 National Center for Atmospheric Research
+# SPDX-License-Identifier: Apache-2.0
+
 from shutil import copyfile as cp
 import argparse
 
