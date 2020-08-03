@@ -4,7 +4,7 @@ import os
 import sys
 from ftplib import FTP
 
-from http.client import HTTPSConnection
+from http.client import HTTPSConnection, HTTPConnection
 import json
 
 import requests
@@ -14,19 +14,21 @@ headers = {
 }
 
 class tag_server:
-  def __init__(self, nickname, server, accessor):
+  def __init__(self, nickname, server, accessor, secure):
     self.nickname = nickname
     self.server = server
     self.accessor = accessor
+    self.secure = (secure == 'https')
 
   def connnection(self):
     return HTTPSConnection(self.server)
 
 
-default_tag_server = tag_server("Published","www.acom.ucar.edu","/cgi-bin/acd/mechanism.py?hash=")
-alternate_tag_server = tag_server("cafe-devel","chemistrycafe-devel.acom.ucar.edu","/node_processes/tags.php?action=return_tag&tag_id=")
+test_tag_server = tag_server("Test","165.227.201.7","/cafe?hash=",'http')
+acom_tag_server = tag_server("ACOM","www.acom.ucar.edu","/cgi-bin/acd/mechanism.py?hash=",'https')
+alternate_tag_server = tag_server("cafe-devel","chemistrycafe-devel.acom.ucar.edu","/node_processes/tags.php?action=return_tag&tag_id=",'https')
 
-tag_server_collection = [default_tag_server,alternate_tag_server]
+tag_server_collection = [test_tag_server, acom_tag_server, alternate_tag_server]
 
 def extract_server_nickname(server):
   return server.nickname
@@ -51,7 +53,7 @@ parser.add_argument('-overwrite', type=bool, default=False,
                     help='overwrite the target_dir')
 parser.add_argument('-target_dir', type=bool, default=False,
                     help='target name for mechanism to be stored locally ')
-parser.add_argument('-tag_server', default='Published', choices=list(map(extract_server_nickname,tag_server_collection)))
+parser.add_argument('-tag_server', default='Test', choices=list(map(extract_server_nickname,tag_server_collection)))
 
 args = parser.parse_args()
 
@@ -82,7 +84,10 @@ with open(outpath+'this_configuration', 'w') as configuration_filehandle:
 
 # Connection to the mechanism sever
 try:
-  mechanism_con = HTTPSConnection(tagServer.server)
+  if(tagServer.secure):
+    mechanism_con = HTTPSConnection(tagServer.server)
+  else:
+    mechanism_con = HTTPConnection(tagServer.server)
 except Exception as e:
   print("Unable to connect to server: "+tagServer.server)
   sys.exit(1)
