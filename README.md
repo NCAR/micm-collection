@@ -1,9 +1,9 @@
-Mechanism Collection
+MICM Collection
 ====================
 
 Storage place for mechanisms, configured mechanisms, and environmental conditions.
 
-[![License](https://img.shields.io/github/license/NCAR/Mechanism_Collection.svg)](https://github.com/NCAR/Mechanism_Collection/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/NCAR/micm-collection.svg)](https://github.com/NCAR/micm-collection/blob/master/LICENSE)
 
 Copyright (C) 2018&ndash;2020 National Center for Atmospheric Research
 
