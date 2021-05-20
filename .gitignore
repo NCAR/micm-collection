@@ -1,6 +1,8 @@
 # files retrieved from cafe and configured.
 configured_tags/*
 !configured_tags/empty_file
+!configured_tags/chapman
+configured_tags/chapman/output
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
