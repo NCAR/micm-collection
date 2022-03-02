@@ -33,7 +33,7 @@ mechanism_json = json.loads('{}')
 configuration_folder = os.path.split(args.configuration_file_path)[0];
 with open(args.configuration_file_path, 'r') as configuration_file:
   configuration_json = json.load(configuration_file)
-  for file_name in configuration_json['pmc-files']:
+  for file_name in configuration_json['camp-files']:
       with open(os.path.join(configuration_folder, file_name), 'r') as mechanism_file:
           mechanism_json[file_name] = json.load(mechanism_file)
 
